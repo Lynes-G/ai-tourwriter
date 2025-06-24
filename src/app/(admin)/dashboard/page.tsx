@@ -18,7 +18,7 @@ import {
 import { transformTripDocument } from "@/lib/trip-utils";
 import { useUser } from "@/providers/UserContext";
 import { useEffect, useState } from "react";
-import { getAllUsers } from "@/appwrite/auth";
+import { getAllUsersWithTripCounts } from "@/appwrite/auth";
 import {
   Category,
   ChartComponent,
@@ -50,9 +50,7 @@ export default function Dashboard() {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        setError(null);
-
-        // Fetch dashboard stats and recent trips concurrently
+        setError(null); // Fetch dashboard stats and recent trips concurrently
         const [
           stats,
           tripsResult,
@@ -65,7 +63,7 @@ export default function Dashboard() {
           getAllTrips(4, 0).catch(() => ({ allTrips: [], total: 0 })),
           getUserGrowthPerDay(),
           getTripsByTravelStyle(),
-          getAllUsers(4, 0),
+          getAllUsersWithTripCounts(4, 0),
           getTripsCreatedPerDay(),
         ]);
 
@@ -97,8 +95,7 @@ export default function Dashboard() {
     };
 
     fetchDashboardData();
-  }, []);
-  // Format users data for the table
+  }, []); // Format users data for the table
   const formattedUsers =
     allUsersData?.users?.map((user: any) => ({
       id: user.$id,
@@ -107,6 +104,7 @@ export default function Dashboard() {
       imageUrl: user.imageUrl || "/images/favicon.png",
       joinedAt: user.joinedAt,
       status: user.status === "admin" ? "admin" : "user",
+      tripsCreated: user.tripsCreated || 0,
     })) || [];
 
   // Format trips data for the table

@@ -596,3 +596,8 @@
   font-weight: 600;
   border-radius: 0px;
 }
+
+.e-chart text {
+  font-family: "Greycliff CF", sans-serif !important;
+  font-weight: 600 !important;
+}

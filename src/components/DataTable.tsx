@@ -9,23 +9,6 @@ import {
 import React from "react";
 import Image from "next/image";
 
-interface BaseTableProps {
-  title: string;
-  dataSource: any[];
-  columns: TableColumn[];
-  loading?: boolean;
-  error?: string | null;
-  className?: string;
-}
-
-interface TableColumn {
-  field: string;
-  headerText: string;
-  width?: number | string;
-  textAlign?: "Left" | "Right" | "Center";
-  template?: (props: any) => React.ReactNode;
-}
-
 export default function DataTable({
   title,
   dataSource = [],
@@ -67,12 +50,13 @@ export default function DataTable({
     );
   }
   return (
-    <div className={cn("data-table-container bg-white", className)}>
+    <div className={cn("data-table-container", className)}>
       <h3 className="p-20-semibold text-dark-100 mb-4 px-4 pt-4">{title}</h3>
       <GridComponent
         dataSource={dataSource}
         gridLines="None"
-        className="overflow-hidden"
+        // className="overflow-hidden"
+        height={250}
       >
         <ColumnsDirective>
           {columns.map((column, index) => (
@@ -114,6 +98,26 @@ export const userTableColumns: TableColumn[] = [
     field: "email",
     headerText: "Email",
     width: 180,
+  },
+  {
+    field: "tripsCreated",
+    headerText: "Trips Created",
+    width: 120,
+    textAlign: "Center",
+    template: (props: any) => (
+      <div className="flex items-center justify-center">
+        <span
+          className={cn(
+            "rounded-full px-2.5 py-0.5 text-xs font-medium",
+            props.tripsCreated > 0
+              ? "bg-primary-50 text-primary-500"
+              : "bg-gray-50 text-gray-500",
+          )}
+        >
+          {props.tripsCreated || 0}
+        </span>
+      </div>
+    ),
   },
   {
     field: "joinedAt",

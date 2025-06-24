@@ -158,3 +158,57 @@ export const getAllUsers = async (limit: number, offset: number) => {
     console.log("Error fetching all users:", err);
   }
 };
+
+export const getAllUsersWithTripCounts = async (
+  limit: number,
+  offset: number,
+) => {
+  try {
+    // Get all users
+    const { documents: users, total } = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.limit(limit), Query.offset(offset)],
+    );
+
+    if (total === 0) return { users: [], total: 0 };
+
+    // Get all trips to count per user
+    const allTrips = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.tripsCollectionId,
+    );
+
+    console.log(`Found ${allTrips.documents.length} total trips for counting`);
+
+    // Count trips per user
+    const tripCounts: { [key: string]: number } = {};
+    allTrips.documents.forEach((trip: any) => {
+      if (trip.userId) {
+        tripCounts[trip.userId] = (tripCounts[trip.userId] || 0) + 1;
+      }
+    });
+
+    console.log("Trip counts by user:", tripCounts);
+
+    // Add trip count to each user
+    const usersWithTripCounts = users.map((user: any) => ({
+      ...user,
+      tripsCreated: tripCounts[user.accountId] || 0,
+    }));
+
+    console.log(
+      "Users with trip counts:",
+      usersWithTripCounts.map((u: any) => ({
+        name: u.name,
+        accountId: u.accountId,
+        tripsCreated: u.tripsCreated,
+      })),
+    );
+
+    return { users: usersWithTripCounts, total };
+  } catch (err) {
+    console.log("Error fetching users with trip counts:", err);
+    return { users: [], total: 0 };
+  }
+};

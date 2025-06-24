@@ -163,3 +163,20 @@ declare interface TripFormData {
   duration: number;
   groupType: string;
 }
+
+declare interface BaseTableProps {
+  title: string;
+  dataSource: any[];
+  columns: TableColumn[];
+  loading?: boolean;
+  error?: string | null;
+  className?: string;
+}
+
+declare interface TableColumn {
+  field: string;
+  headerText: string;
+  width?: number | string;
+  textAlign?: "Left" | "Right" | "Center";
+  template?: (props: any) => React.ReactNode;
+}
