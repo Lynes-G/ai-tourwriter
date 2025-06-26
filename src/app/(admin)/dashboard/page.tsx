@@ -222,7 +222,7 @@ export default function Dashboard() {
                   name="Column"
                   columnWidth={0.3}
                   cornerRadius={{ topLeft: 10, topRight: 10 }}
-                  fill="oklch(54.393% 0.25454 293.755)"
+                  fill="oklch(43.564% 0.21621 293.716)"
                 />
 
                 <SeriesDirective
@@ -232,7 +232,7 @@ export default function Dashboard() {
                   type="SplineArea"
                   name="Wave"
                   fill="oklch(59.965% 0.22069 31.727 / 0.3)"
-                  border={{ width: 2, color: "oklch(68.594% 0.16665 154.883)" }}
+                  border={{ width: 2, color: "oklch(59.965% 0.22069 31.727)" }}
                 />
               </SeriesCollectionDirective>
             </ChartComponent>
@@ -261,7 +261,7 @@ export default function Dashboard() {
                   name="day"
                   columnWidth={0.3}
                   cornerRadius={{ topLeft: 10, topRight: 10 }}
-                  fill="oklch(54.393% 0.25454 293.755)"
+                  fill="oklch(43.564% 0.21621 293.716)"
                 />
               </SeriesCollectionDirective>
             </ChartComponent>{" "}
